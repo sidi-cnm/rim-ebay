@@ -1,10 +1,22 @@
-import { cookies } from "next/headers";
-import {NavAuthUI} from "./ui";
-import {NavNonAuthUI} from "./ui";
+"use client";
 
-export default function ConditionalNav({ lang = "ar" }) {
-  const isAuthenticated = cookies().has("sessionId");
-  console.log({ isAuthenticated });
+import { usePathname } from "next/navigation";
+import { NavAuthUI } from "./ui";
+import { NavNonAuthUI } from "./ui";
+
+export default function ConditionalNav({
+  lang = "ar",
+  isAuthenticated,
+}: {
+  lang?: string;
+  isAuthenticated: boolean;
+}) {
+  const pathname = usePathname();
+
+  // Vérifiez si on est dans l'espace admin
+  const isAdmin = pathname.startsWith( `/${lang}/admin`);
+
+  if (isAdmin) return null;
 
   return (
     <>

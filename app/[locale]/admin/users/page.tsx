@@ -1,93 +1,33 @@
-"use client"
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { FaUser, FaPhone, FaLock, FaRegClock } from "react-icons/fa"; // Import icons for phone, lock, and clock
+// /app/admin/users/page.tsx
 
-const UserPage = () => {
-  // Données factices pour les utilisateurs
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      username: "john_doe",
-      telephone: "010-1234567",
-      etat: "Actif",
-      derniereConnexion: "2024-11-13 14:30",
-    },
-    {
-      id: 2,
-      username: "jane_smith",
-      telephone: "010-7654321",
-      etat: "Inactif",
-      derniereConnexion: "2024-11-10 10:20",
-    },
-    {
-      id: 3,
-      username: "paul_lee",
-      telephone: "010-9876543",
-      etat: "Actif",
-      derniereConnexion: "2024-11-12 08:10",
-    },
-  ]);
+import UserTable from "../../components/UserTable"; // Importez le composant pour afficher les utilisateurs
 
-  const toggleEtat = (id:any) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === id ? { ...user, etat: user.etat === "Actif" ? "Inactif" : "Actif" } : user
-      )
-    );
-  };
+interface UserPageProps {
+  params: { locale: string }; // Déclarez le paramètre de langue
+}
 
-  const resetPassword = (id:any) => {
-    alert(`Password reset for user ${id}`); // Placeholder action, you can replace this with real logic
-  };
+const UserPage = async ({ params }: UserPageProps) => {
 
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="py-6 px-8">
-        <h1 className="text-3xl font-bold text-gray-800">User Management</h1>
-        <p className="text-lg text-gray-600 mb-4">Manage and view your users</p>
+  const { locale } = params
+  try {
+    // Faites la requête vers l'API côté serveur
+    const res = await fetch(`http://localhost:3000/${locale}/api/user`);  // Changez l'URL si nécessaire
+    const users = await res.json();  // Récupérez les données au format JSON
 
-        {/* Tableau des utilisateurs */}
-        <div className="overflow-x-auto bg-white rounded-lg shadow-md">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="border-b">
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Username</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Telephone</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Etat</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Dernière Connexion</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="border-b hover:bg-gray-50">
-                  <td className="px-6 py-3 text-sm text-gray-700">{user.username}</td>
-                  <td className="px-6 py-3 text-sm text-gray-700">{user.telephone}</td>
-                  <td className="px-6 py-3 text-sm text-gray-700">{user.etat}</td>
-                  <td className="px-6 py-3 text-sm text-gray-700">{user.derniereConnexion}</td>
-                  <td className="px-6 py-3 text-sm text-gray-700">
-                    <button
-                      onClick={() => toggleEtat(user.id)}
-                      className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 mr-2"
-                    >
-                      {user.etat === "Actif" ? "Désactiver" : "Activer"}
-                    </button>
-                    <button
-                      onClick={() => resetPassword(user.id)}
-                      className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
-                    >
-                      Réinitialiser le mot de passe
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    return (
+      <div className="min-h-screen bg-gray-100">
+        <div className="py-28 px-14">
+          <div className="text-2xl font-bold text-gray-800 uppercase mb-6">User Management</div>
+          <UserTable users={users} />
         </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Erreur lors de la récupération des utilisateurs:', error);
+    return (
+      <div>Error: Unable to fetch users.</div>
+    );
+  }
 };
 
 export default UserPage;

@@ -5,8 +5,8 @@ import Image from "next/image";
 export default function SideNavigation() {
   const headerLinks = [
     { link: "/admin/users", name: "User", icon: <FaUser /> },
-    { link: "/annonce", name: "Annonce", icon: <FaBullhorn /> },
-    { link: "/statistique", name: "Statistique", icon: <FaChartBar /> },
+    { link: "/admin/annonce", name: "Annonce", icon: <FaBullhorn /> },
+    { link: "/admin/statistique", name: "Statistique", icon: <FaChartBar /> },
   ];
 
   return (
