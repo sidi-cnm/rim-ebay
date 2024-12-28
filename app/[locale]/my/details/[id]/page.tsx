@@ -1,17 +1,22 @@
 import React from "react";
 import MyAnnonceDetailsUI from "./ui"; 
-import { handleGetOneAnnonce } from "./page.handlers/handleGetOneAnnonce";
+import { handleGetAnnonces } from "./page.handlers/handleGetOneAnnonce";
 import BackButton from "@/app/[locale]/components/Navigation";
- 
+import { cookies } from "next/headers";
+
 export default async function AnnonceDetail(
-  { params }: { params: { id: string } },
+  params: { locale: string },
 ) {
-  const annonceId = parseInt(params.id); 
-  console.log("annonceId" , {annonceId})
-  const annonce  = await handleGetOneAnnonce(annonceId) 
+  
+  const userid = cookies().get("user")
+  const userIdConverted = userid ? parseInt(userid.value) : 0;
+  //const annonce  = await handleGetAnnonces(userIdConverted,params.locale) 
+  const { pageAnnonceData, errorMessage } = await handleGetAnnonces(userIdConverted, params.locale);
+
+  console.log("pageAnnonceData",pageAnnonceData?.annonces)
  
 
-  if (!annonce) {
+  if (pageAnnonceData?.annonces) {
     return (
       <h1 className="text-3xl font-bold text-center mt-16 text-red-600">
         Annonce non trouvée
@@ -26,7 +31,7 @@ export default async function AnnonceDetail(
          <BackButton />
       </div>
         
-       <MyAnnonceDetailsUI annonceId={annonceId} annonce={annonce} />;
+       <MyAnnonceDetailsUI lang={params.locale} annonceId={userIdConverted} annonce={pageAnnonceData?.annonces[0]} />;
     </div>
 
   )

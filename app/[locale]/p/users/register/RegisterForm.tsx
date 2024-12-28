@@ -2,25 +2,23 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/locales/client";
+import axios from 'axios';
 
 export default function RegisterForm({ lang = "ar" }) {
   const router = useRouter();
   const t = useI18n();
-  const defaultEmail = ""
-  // 'user11@example.com';
-  const defaultPassword = ""
-  // 'password123';
-
-  const [email, setEmail] = useState(defaultEmail);
-  const [password, setPassword] = useState(defaultPassword);
-  const [confirmPassword, setConfirmPassword] = useState(defaultPassword);
-
+  console.log("lang", lang);
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
   const [submitStatus, setSubmitStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
     let isValid = true;
@@ -52,39 +50,46 @@ export default function RegisterForm({ lang = "ar" }) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("register.formSubmitted");
-    setSubmitStatus("register.validationInProgress");
+    setSubmitStatus(t("nav.labo"));
 
     if (!validateForm()) {
-      setSubmitStatus("register.validationFailed");
+      setSubmitStatus(t("nav.labo"));
       return;
     }
 
-    setSubmitStatus("register.sendingData");
-
+    setIsLoading(true);
     try {
-      const response = await fetch(`/${lang}/api/p/users/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      setSubmitStatus(t("nav.labo"));
+
+      const response = await axios.post(`/${lang}/api/adduser`, {
+        email,
+        password,
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "register.error");
-      }
-
-      console.log("Résultat de l'action:", result);
+      // Enregistrement réussi
       setSubmitStatus(t("register.success"));
-
-      router.push(`/${lang}//my/list`);
+      console.log("Utilisateur créé:", response.data);
+      
+      // Rediriger vers la page de connexion
+      router.push(`/${lang}/p/users/connexion`);
       router.refresh();
-    } catch (error) {
-      setSubmitStatus(String(error))
-      console.error("Erreur lors de la soumission:", error);
+
+    } catch (error: any) {
+      console.error("Erreur d'enregistrement:", error);
+      
+      // Gestion des erreurs Axios
+      if (error.response) {
+        // Le serveur a répondu avec un statut d'erreur
+        setSubmitStatus(error.response.data.error || t("nav.labo"));
+      } else if (error.request) {
+        // La requête a été faite mais pas de réponse
+        setSubmitStatus(t("nav.labo"));
+      } else {
+        // Erreur lors de la configuration de la requête
+        setSubmitStatus(error.message || t("nav.labo"));
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -108,10 +113,14 @@ export default function RegisterForm({ lang = "ar" }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              disabled={isLoading}
               required
             />
-            {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+            )}
           </div>
+
           <div>
             <label
               htmlFor="password"
@@ -125,12 +134,14 @@ export default function RegisterForm({ lang = "ar" }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              disabled={isLoading}
               required
             />
             {errors.password && (
-              <p style={{ color: "red" }}>{errors.password}</p>
+              <p className="mt-1 text-sm text-red-600">{errors.password}</p>
             )}
           </div>
+
           <div>
             <label
               htmlFor="confirmPassword"
@@ -144,21 +155,47 @@ export default function RegisterForm({ lang = "ar" }) {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              disabled={isLoading}
               required
             />
             {errors.confirmPassword && (
-              <p style={{ color: "red" }}>{errors.confirmPassword}</p>
+              <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
             )}
           </div>
+
           <div>
             <button
-              id="submit"
               type="submit"
-              className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300"
+              className={`w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md 
+                ${isLoading 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:bg-blue-700'} 
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 
+                transition-colors duration-300`}
+              disabled={isLoading}
             >
-              {t("register.submitButton")}
+              {isLoading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {t("nav.labo")}
+                </span>
+              ) : (
+                t("register.submitButton")
+              )}
             </button>
-            {submitStatus && <p>{submitStatus}</p>}
+            
+            {submitStatus && (
+              <p className={`mt-2 text-center ${
+                submitStatus === t("register.success") 
+                  ? "text-green-600" 
+                  : "text-red-600"
+              }`}>
+                {submitStatus}
+              </p>
+            )}
           </div>
         </form>
       </div>

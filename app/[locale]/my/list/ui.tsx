@@ -58,7 +58,9 @@ const fallbackImageUrl = "/noimage.jpg";
 function getValidImageUrl(url: string | undefined): string { 
   return typeof url === "string" && url.trim() !== "" ? url : fallbackImageUrl;
 }
-function AnnonceItemUI(annonce: Annonce) {
+function AnnonceItemUI({annonce,lang = "ar"}: {annonce:Annonce,lang?: string}) {
+
+    console.log("annonceUI",annonce)
 
   const t = useI18n();
 
@@ -97,22 +99,22 @@ function AnnonceItemUI(annonce: Annonce) {
         <div className="p-6 flex-grow">
           <h2 className="text-xl font-semibold mb-2">
           
-            {annonce.title}
+            {lang==="ar" ? "العنوان" : annonce.title}
           </h2>
           <p className="text-gray-600 mb-2 mx-2">{annonce.description}</p>
 
           <div className="mt-5">
               <div className="border-t border-green-800  my-2"></div>
               <div className="flex justify-between">
-                  <p className="font-bold">PRIX</p>
-                  <p className="text-lg text-green-700 font-bold">{annonce.price}€ / jour</p>
+                  <p className="font-bold">{t('prix')}</p>
+                  <p className="text-lg text-green-700 font-bold">{annonce.price} MRU</p>
               </div>
               <div className="border-t border-green-800  my-2"></div>
           </div>
           
           
           <span className="inline-block bg-green-800 rounded-full px-3 py-1 text-sm font-semibold text-white mt-2">
-            {annonce.categorieName}
+            {lang === 'ar' ?  annonce?.categorie?.nameAr : annonce?.categorie?.name}
           </span>
         </div>
       </article>
@@ -122,14 +124,17 @@ function AnnonceItemUI(annonce: Annonce) {
 
 
 export  function MyListAnnoncesUI(
-  { totalPages, currentPage, annonces }: { totalPages: number ;currentPage: number; annonces: Annonce[]},
+  { totalPages, lang = "ar", currentPage, annonces }: {lang?: string, totalPages: number ;currentPage: number; annonces: Annonce[]},
 ) { 
-  console.log("annonces" , annonces)
+  console.log("annonces:::::" , annonces)
   const t = useI18n();
 
   return (
     <>
       <div className="container mx-auto"> 
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          {t("Annonces")}
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {annonces.map((annonce) => (
             <Link
@@ -137,7 +142,7 @@ export  function MyListAnnoncesUI(
               key={annonce.id}
               className="block"
             >
-              <AnnonceItemUI {...annonce} />
+              <AnnonceItemUI annonce={annonce} lang={lang} />
             </Link>
           ))}
         </div>

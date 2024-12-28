@@ -1,23 +1,42 @@
-import { IHandleGetAnnonces, IPageAnnonce } from "./handleGetAnnonces.interface";
+import axios from 'axios';
 
-import data from './data.json'
-
-const handleGetAnnonces: IHandleGetAnnonces = async () => {
-    let pageAnnonceData: IPageAnnonce | null = null;
-    let errorMessage = '';
-    const annonces = data.annonces.map(annonce => ({
-        ...annonce,
-        //created_at: new Date(annonce.createdAt),
-      }));
+export async function handleGetAnnonces(userId: number, locale: string) {
+  try {
+    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    // const { data } = await axios.get(`${baseURL}/${locale}/api/annonces`, {
+    //   params: { userId },
+    //   headers: {
+    //     'Content-Type': 'application/json',
+        
+    //   },
       
+    // });
 
-    pageAnnonceData = {
-        totalPages:data.totalPages,
-        annonces
-    }
- 
+    const  data = await fetch (`${baseURL}/${locale}/api/annonces`,{ 
+        body: JSON.stringify({ userId}),
+        headers: {
+          'Content-Type': 'application/json',
+           
+        },
+        cache:"no-store"
+        
+      });
+   
 
-    return { pageAnnonceData, errorMessage };
-};
 
-export { handleGetAnnonces }
+
+    return { 
+      pageAnnonceData: { 
+        annonces: data, 
+        totalPages: 1 
+      }, 
+      errorMessage: null 
+    };
+  } catch (error) {
+    console.error('Error fetching annonces:', error);
+    return { 
+      pageAnnonceData: null, 
+      errorMessage: 'Error fetching annonces' 
+    };
+  }
+}

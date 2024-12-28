@@ -110,11 +110,22 @@ export default {
     invalidEmail: "Adresse e-mail invalide",
     minLength: "Ce champ doit contenir au moins {min} caractères",
     maxLength: "Ce champ ne peut pas dépasser {max} caractères",
+    fetchTypeAnnonces: "Erreur lors de la récupération des types d'annonces",
+    fetchCategories: "Erreur lors de la récupération des catégories",
+    fetchSubCategories: "Erreur lors de la récupération des sous-catégories",
+    createAnnonce: "Erreur lors de la création de l'annonce",
+    invalidData: "Données invalides",
+    serverError: "Erreur serveur",
+    networkError: "Erreur de connexion",
+    unexpectedError: "Une erreur inattendue s'est produite"
   },
   successMessages: {
     listingAdded: "L'annonce a été ajoutée avec succès",
     profileUpdated: "Profil mis à jour avec succès",
     passwordChanged: "Mot de passe modifié avec succès",
+    annonceCreated: "Annonce créée avec succès",
+    dataFetched: "Données récupérées avec succès",
+    dataSaved: "Données enregistrées avec succès"
   },
   validation: {
     emailRequired: "L'e-mail est obligatoire",
@@ -123,4 +134,19 @@ export default {
     firstNameRequired: "Le prénom est obligatoire",
     lastNameRequired: "Le nom de famille est obligatoire",
   },
+  notifications: {
+    creating: "Création de l'annonce en cours...",
+    success: "Annonce créée avec succès !",
+    error: "Erreur lors de la création de l'annonce",
+    successdelete:"L`utilisateur delete avec succees",
+    errordelete:"Error lors de deleting l`utilisateur",
+    updating:"updating"
+  },
+  editAnnonce:{
+    "edit":"edit"
+  },
+  prix:"Prix",
+  Annonces:"Mes Annonces",
+  Contact:"contact",
+  annonce:"Mon annonce"
 } as const;

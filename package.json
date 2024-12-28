@@ -2,18 +2,21 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "e2e": "cypress open --browser chrome",
-    "dev": "next dev"
+    "dev": "next dev",
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@next/bundle-analyzer": "^14.2.14",
+    "@prisma/client": "^5.22.0",
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/lowdb": "^1.0.15",
@@ -22,17 +25,21 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^8.0.1",
+    "axios": "^1.7.8",
     "bcrypt": "^5.1.1",
     "cypress": "^13.13.3",
     "dotenv": "^16.4.5",
     "intl-locale-textinfo-polyfill": "^2.1.1",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "lottie-react": "^2.4.0",
     "next": "14.2.5",
     "next-international": "^1.2.4",
     "node-persist": "^4.0.3",
     "pg": "^8.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^5.3.0",
     "react-leaflet": "^4.2.1",
     "react-multi-carousel": "^2.8.5",
@@ -46,11 +53,16 @@
     "@types/node": "^22.1.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-lottie": "^1.2.10",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
+    "prisma": "^6.0.1",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
   }
 }

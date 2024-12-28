@@ -3,6 +3,9 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/locales/client"; 
+import axios from 'axios';
+import { toast, Toaster } from "react-hot-toast";
+import { cookies } from "next/headers";
 
 export default function ConnexionForm({ lang = "ar" }) { 
   const router = useRouter(); 
@@ -47,36 +50,48 @@ export default function ConnexionForm({ lang = "ar" }) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitStatus(t("connexion.validationInProgress"));
-
-    if (!validateForm()) {
-      setSubmitStatus(t("connexion.validationFailed"));
-      return;
-    }
-
-    setSubmitStatus(t("connexion.sendingData"));
     setIsLoading(true);
 
     try {
-      const response = await fetch(`/${lang}/api/p/users/connexion`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-        cache: 'no-store'
+      const response = await axios.post(`/${lang}/api/connexion`, {
+        email,
+        password,
       });
-      const result = await response.json();
-      if (response.ok) {
-        setSubmitStatus(t("connexion.success"));
+
+      const userid = response.data.user.id;
+      if (response.status === 200) {
+        toast.success("Connexion réussie!", {
+          duration: 3000,
+          position: "bottom-right",
+          style: {
+            background: "#22C55E",
+            color: "white",
+          },
+        });
         router.push(`/${lang}/my/list`);
-        router.refresh();
-      } else {
-        setSubmitStatus(t("connexion.error"));
+        router.refresh()
       }
-    } catch (error) {
-      setSubmitStatus(t("connexion.unexpectedError"));
-      console.error("Erreur lors de la soumission:", error);
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        toast.error("Email ou mot de passe incorrect", {
+          duration: 4000,
+          position: "bottom-right",
+          style: {
+            background: "#FF4444",
+            color: "white",
+          },
+        });
+      } else {
+        toast.error("Une erreur est survenue lors de la connexion", {
+          duration: 4000,
+          position: "bottom-right",
+          style: {
+            background: "#FF4444",
+            color: "white",
+          },
+        });
+      }
+      console.error("Erreur lors de la connexion:", error);
     } finally {
       setIsLoading(false);
     }
@@ -85,6 +100,7 @@ export default function ConnexionForm({ lang = "ar" }) {
   return (
     <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <Toaster position="bottom-right" reverseOrder={false} />
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           {t("connexion.title")}
         </h1>

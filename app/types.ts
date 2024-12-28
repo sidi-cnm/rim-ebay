@@ -1,3 +1,5 @@
+import { SubCategory } from "./[locale]/my/add/data";
+
 // Interface pour la table Users
 export interface User {
   id: number; // Identifiant unique
@@ -31,7 +33,8 @@ export interface TypeAnnonce {
 export interface Category {
   id: number; // Identifiant unique
   typeAnnonceId: number; // Identifiant du type d'annonce (clé étrangère)
-  name: string; // Nom de la catégorie
+  name: string; 
+  nameAr:string;// Nom de la catégorie
   priority: number; // Priorité de la catégorie
   createdAt: Date; // Date de création de la catégorie
 }
@@ -85,12 +88,15 @@ export interface Annonce {
   typeAnnonceNameAr?: string; // Nom du type d'annonce en arabe (optionnel)
 
   categorieId: number; // Identifiant de la catégorie
+  categorie?: Category;
+  subcategorie?:SubCategory
+  typeAnnonce?:TypeAnnonce
   categorieName?: string; // Nom de la catégorie (optionnel)
   categorieNameAr?: string; // Nom de la catégorie en arabe (optionnel)
 
   lieuId: number; // Identifiant du lieu de l'annonce
-  lieuStr: string; // Lieu de l'annonce
-  lieuStrAr: string; // Lieu de l'annonce en arabe
+  lieuStr?: string; // Lieu de l'annonce
+  lieuStrAr?: string; // Lieu de l'annonce en arabe
 
   userId: number; // Identifiant de l'utilisateur
   title: string; // Titre de l'annonce

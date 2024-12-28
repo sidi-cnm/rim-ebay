@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
  
   const { direction: dir } = new Locale(params.locale).textInfo;
-  const hasSession = cookies().has("sessionId");
+  const hasSession = cookies().has("jwt");
 
   return (
     <html lang={params.locale} dir={dir}>

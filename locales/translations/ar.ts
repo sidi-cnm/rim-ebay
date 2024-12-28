@@ -110,11 +110,22 @@ export default {
     invalidEmail: "البريد الإلكتروني غير صالح",
     minLength: "يجب أن يحتوي هذا الحقل على {min} أحرف على الأقل",
     maxLength: "لا يمكن أن يحتوي هذا الحقل على أكثر من {max} أحرف",
+    fetchTypeAnnonces: "خطأ في استرجاع أنواع الإعلانات",
+    fetchCategories: "خطأ في استرجاع الفئات",
+    fetchSubCategories: "خطأ في استرجاع الفئات الفرعية",
+    createAnnonce: "خطأ في إنشاء الإعلان",
+    invalidData: "بيانات غير صالحة",
+    serverError: "خطأ في الخادم",
+    networkError: "خطأ في الاتصال",
+    unexpectedError: "حدث خطأ غير متوقع"
   },
   successMessages: {
     listingAdded: "تمت إضافة الإعلان بنجاح",
     profileUpdated: "تم تحديث الملف الشخصي بنجاح",
     passwordChanged: "تم تغيير كلمة المرور بنجاح",
+    annonceCreated: "تم إنشاء الإعلان بنجاح",
+    dataFetched: "تم استرجاع البيانات بنجاح",
+    dataSaved: "تم حفظ البيانات بنجاح"
   },
   validation: {
     emailRequired: "البريد الإلكتروني مطلوب",
@@ -123,4 +134,19 @@ export default {
     firstNameRequired: "الاسم الأول مطلوب",
     lastNameRequired: "الاسم الأخير مطلوب",
   },
+  notifications: {
+    creating: "جاري إنشاء الإعلان...",
+    success: "تم إنشاء الإعلان بنجاح!",
+    error: "خطأ في إنشاء الإعلان",
+    successdelete:"تم حذف المستخدم بنجاح",
+    errordelete:"حدث خطأ عند حذف المستخدم",
+    updating:"تحديث"
+  },
+  editAnnonce:{
+    "edit":"edit"
+  },
+  prix:"السعر",
+  Annonces:"إعلاناتي",
+  Contact:"اتصال",
+  annonce:"إعلاني"
 } as const;
