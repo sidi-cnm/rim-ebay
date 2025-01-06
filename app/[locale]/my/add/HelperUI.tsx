@@ -10,9 +10,10 @@ const FormulaireAnnonce: React.FC = () => {
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const type = e.target.value as AnnonceType;
+    const typeconvetred = parseInt(type);
     setSelectedType(type);
     setSelectedCategory('');
-    setFilteredCategories(categories.filter(category => category.type === type));
+    setFilteredCategories(categories.filter(category => category.typeAnnonceId === typeconvetred));
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
