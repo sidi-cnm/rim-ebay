@@ -1,4 +1,4 @@
-//"use client"
+"use client"
 import { handleGetAnnonces } from "./page.handlers/handleGetAnnonces";
 import ListAnnoncesUI from "./ui/ListAnnoncesUI";
  

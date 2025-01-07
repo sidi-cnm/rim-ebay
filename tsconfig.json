@@ -37,6 +37,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "g.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "prisma/**/*", ".next/types/**/*.ts", "g.js"],
+  
   "exclude": ["node_modules"]
 }
