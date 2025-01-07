@@ -47,7 +47,7 @@ export default function MyAnnonceDetailsCompo({ lang = "ar",annonceId,annonce}: 
     };
 
     fetchAnnonce(); // Call the fetch function
-  }, [annonceId]);
+  }, [annonceId,id,lang]);
 
   
 

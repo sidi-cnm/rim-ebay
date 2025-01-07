@@ -39,7 +39,7 @@ export default function AddAnnonceUI({ lang = "ar" , userid}: { lang?: string; u
     };
 
     fetchTypeAnnonces();
-  }, [lang]);
+  }, [lang,t]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -69,7 +69,7 @@ export default function AddAnnonceUI({ lang = "ar" , userid}: { lang?: string; u
     };
 
     fetchCategories();
-  }, [selectedTypeId, lang]);
+  }, [selectedTypeId, lang,t]);
 
   useEffect(() => {
     const fetchSubCategories = async () => {
@@ -89,7 +89,7 @@ export default function AddAnnonceUI({ lang = "ar" , userid}: { lang?: string; u
     };
 
     fetchSubCategories();
-  }, [selectedCategoryId, lang]);
+  }, [selectedCategoryId, lang,t]);
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const typeId = Number(e.target.value);

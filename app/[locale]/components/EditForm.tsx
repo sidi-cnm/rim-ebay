@@ -43,7 +43,7 @@ const EditForm: React.FC<EditFormProps> = ({ lang, userid, annonceId, initialDat
     };
 
     fetchTypeAnnonces();
-  }, [lang]);
+  }, [lang,t]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -60,7 +60,7 @@ const EditForm: React.FC<EditFormProps> = ({ lang, userid, annonceId, initialDat
     };
 
     fetchCategories();
-  }, [selectedTypeId, lang]);
+  }, [selectedTypeId, lang,t]);
 
   useEffect(() => {
     const fetchSubCategories = async () => {
@@ -77,7 +77,7 @@ const EditForm: React.FC<EditFormProps> = ({ lang, userid, annonceId, initialDat
     };
 
     fetchSubCategories();
-  }, [selectedCategoryId, lang]);
+  }, [selectedCategoryId, lang,t]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

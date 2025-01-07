@@ -1,8 +1,8 @@
-"use client"
+//"use client"
 import { handleGetAnnonces } from "./page.handlers/handleGetAnnonces";
 import ListAnnoncesUI from "./ui/ListAnnoncesUI";
  
-import InputDialog from "./components/InputDialog";
+//import InputDialog from "./components/InputDialog";
 import Input from "./components/Input";
 import AnnoceTitle from "./components/AnnoceTitle";
 
