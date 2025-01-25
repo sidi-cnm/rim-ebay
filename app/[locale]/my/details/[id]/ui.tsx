@@ -10,7 +10,7 @@ import axios from "axios";
 import toast, { Toaster } from 'react-hot-toast';
 import { useI18n } from "@/locales/client"; 
 import { useRouter } from "next/navigation";
-import EditForm from "@/app/[locale]/components/EditForm";
+import EditForm from "@/app/[locale]/components/EditForm/EditForm";
 import { LottieAnimation } from "@/app/[locale]/components/LottieAnimation";
 
 

@@ -1,11 +1,11 @@
 import { Suspense } from "react";
-import { handleGetAnnonces } from "./page.handlers/handleGetAnnonces";
+//mport { handleGetAnnonces } from "./page.handlers/handleGetAnnonces";
 import { MyListAnnoncesUI } from "./ui";
 import { LottieAnimation } from "../../components/LottieAnimation";
 import { cookies } from "next/headers";
-import { NextResponse } from 'next/server';
+//import { NextResponse } from 'next/server';
 import prisma from '../../../../lib/prisma'; // Importation de l'instance Prisma
-import { Annonce } from "@/docs/db-tables-interface";
+//import { Annonce } from "@/docs/db-tables-interface";
 
 // Définition des types pour la requête
 interface CreateAnnonceRequest {
@@ -38,7 +38,6 @@ export default async function Home({
   };
 }) {
   const currentPage = Number(searchParams?.page) || 1;
-  //const userId = localStorage.getItem('userId'); 
   const userid = cookies().get("user")
   const userIdConverted = userid ? parseInt(userid.value) : 0; // Convertissez en nombre si existe
 

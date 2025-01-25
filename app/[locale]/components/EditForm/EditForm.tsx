@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect, ButtonHTMLAttributes } from "react";
-import { Category, SubCategory } from '../my/add/data'; // Assurez-vous que ces types sont importés correctement
+import { Category, SubCategory } from '../../my/add/data'; // Assurez-vous que ces types sont importés correctement
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useI18n } from "@/locales/client"; 
 import { useRouter } from "next/navigation";
 
-interface EditFormProps {
+export interface EditFormProps {
   lang: string;
   annonceId: number;
   userid:number
@@ -137,7 +137,7 @@ const EditForm: React.FC<EditFormProps> = ({ lang, userid, annonceId, initialDat
               onChange={(e) => setSelectedTypeId(Number(e.target.value))}
               className="border rounded w-full p-2"
             >
-              <option value="">{t("addAnnonce.selectType")}</option>
+             
               {typeAnnonces.map(type => (
                 <option key={type.id} value={type.id}>
                   {lang === 'ar' ? type.nameAr : type.name}
